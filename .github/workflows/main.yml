@@ -1,0 +1,21 @@
+name: Compilar Mod
+on: [push, workflow_dispatch]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Configurar Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+      - name: Dar permisos a Gradle
+        run: chmod +x gradlew
+      - name: Compilar JAR
+        run: ./gradlew build
+      - name: Guardar JAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: Mod-Compilado
+          path: build/libs/*.jar
